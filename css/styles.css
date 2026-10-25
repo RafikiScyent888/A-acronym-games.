@@ -1010,3 +1010,37 @@ footer.site-footer a {
   border: 2px dashed var(--ink-soft);
   border-radius: var(--radius-md);
 }
+
+/* ---------- The pause button (25 October 2026) ----------
+   Only on the timed games (Blitz, Match, Memory), where it stops the
+   clock. An icon in a button has no size of its own, so it drew 0 wide
+   and the button looked empty: it is sized here, with the word beside it. */
+#pause-btn svg { width: 20px; height: 20px; flex: none; }
+
+/* ---------- Dark mode: ghost buttons and the sky's decorations (25 October 2026) ----------
+   As the CySA+ and Security+ sites have them. A ghost button ("Pause",
+   "Dashboard") sat on a 55% white wash in both themes, so on a dark page
+   its light words were 1.5:1; the sun stayed cream, and a heading under
+   it on a phone was 4.3:1. Dark mode now gives the button a darker
+   backing and the sun and glow only a faint tint. The light theme is
+   unchanged. */
+:root {
+  --ghost-bg: rgba(255, 255, 255, 0.55);
+  --sun-wash: radial-gradient(circle at 35% 35%, rgba(255, 244, 200, 0.9), rgba(255, 220, 120, 0.15) 60%, transparent 70%);
+  --glow-wash: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.35), transparent 65%);
+}
+:root[data-theme="dark"] {
+  --ghost-bg: rgba(0, 0, 0, 0.28);
+  --sun-wash: radial-gradient(circle at 35% 35%, rgba(255, 244, 200, 0.16), rgba(255, 220, 120, 0.05) 60%, transparent 70%);
+  --glow-wash: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.07), transparent 65%);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ghost-bg: rgba(0, 0, 0, 0.28);
+    --sun-wash: radial-gradient(circle at 35% 35%, rgba(255, 244, 200, 0.16), rgba(255, 220, 120, 0.05) 60%, transparent 70%);
+    --glow-wash: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.07), transparent 65%);
+  }
+}
+.btn-ghost { background: var(--ghost-bg); color: var(--ink); }
+body::before { background: var(--sun-wash); }
+body::after { background: var(--glow-wash); }

@@ -20,7 +20,6 @@
       <div class="hud">
         <div class="hud-stat"><span>Card</span><span id="hud-index">1 / 202</span></div>
         <div class="hud-stat"><span>Known</span><span id="hud-known">0</span></div>
-        <button class="btn btn-ghost" id="pause-btn" aria-label="Pause"></button>
       </div>
     </div>
 
@@ -61,7 +60,6 @@
   <script>
     renderTopbar();
     renderFooter("site-footer");
-    document.getElementById("pause-btn").innerHTML = ICONS.pause;
     document.getElementById("mode-icon").innerHTML = ICONS.cards;
     document.getElementById("shuffle-btn").innerHTML = `${ICONS.shuffle} Shuffle`;
 
@@ -137,13 +135,9 @@
     });
 
     document.addEventListener("keydown", (e) => {
-      if (pauseCtl.paused) return;
       if (e.key === "ArrowRight") go(1);
       if (e.key === "ArrowLeft") go(-1);
     });
-
-    const pauseCtl = new PauseController();
-    document.getElementById("pause-btn").addEventListener("click", () => pauseCtl.pause());
 
     render();
   </script>
