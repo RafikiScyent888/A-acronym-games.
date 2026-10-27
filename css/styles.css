@@ -8,8 +8,10 @@
   --sky-top: #bfe8ff;
   --sky-mid: #7fd0ff;
   --sky-bot: #4db4f0;
-  --ink: #0b2338;
-  --ink-soft: #2b4a63;
+  /* AAA (27 October 2026, as on the Security+ site): the sky is fixed to the window, so text can scroll down onto its darkest
+     blue (--sky-bot). Both inks clear 7:1 there; the old soft ink was 4.0:1 on it, the old ink 6.9:1. */
+  --ink: #061827;
+  --ink-soft: #071d2f;
   --card-bg: #ffffff;
   --card-bg-soft: #f3faff;
   --border-soft: rgba(11, 35, 56, 0.12);
@@ -20,24 +22,27 @@
   --focus-ring: #0b2338;
 
   /* Tile themes */
-  --green-1: #34d399;
-  --green-2: #059669;
+  /* Tile themes. White words need deep colours under them: deep royal green, red and silver now (27 October 2026, as on the
+     Security+ site), and Blitz's dark words sit on a lavender end instead of the purple (--bolt-soft). */
+  --green-1: #065f46;
+  --green-2: #064e3b;
   --green-ink: #eafff5;
 
   --sun-1: #ffd166;
   --sun-2: #f59e0b;
-  --sun-ink: #3b2400;
+  --sun-ink: #2a1800;
 
-  --storm-1: #64748b;
+  --storm-1: #475569;
   --storm-2: #1e293b;
   --storm-ink: #eef2f7;
 
-  --fire-1: #fb923c;
-  --fire-2: #dc2626;
+  --fire-1: #991b1b;
+  --fire-2: #7f1d1d;
   --fire-ink: #fff5ee;
 
   --bolt-1: #fef08a;
   --bolt-2: #7c3aed;
+  --bolt-soft: #c4b5fd;
   --bolt-ink: #2a1250;
 
   --good: #16a34a;
@@ -50,7 +55,7 @@
   --sky-mid: #123a56;
   --sky-bot: #0a1f30;
   --ink: #eaf5ff;
-  --ink-soft: #b7d3e8;
+  --ink-soft: #dbeaf6;
   --card-bg: #102a3d;
   --card-bg-soft: #0c2032;
   --border-soft: rgba(234, 245, 255, 0.14);
@@ -64,7 +69,7 @@
     --sky-mid: #123a56;
     --sky-bot: #0a1f30;
     --ink: #eaf5ff;
-    --ink-soft: #b7d3e8;
+    --ink-soft: #dbeaf6;
     --card-bg: #102a3d;
     --card-bg-soft: #0c2032;
     --border-soft: rgba(234, 245, 255, 0.14);
@@ -203,7 +208,7 @@ body::after {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #38bdf8, #0284c7);
+  background: linear-gradient(135deg, #1e4fa3, #0b3a82);   /* royal blue: white on the old sky blue was 2.7:1 */
   color: #fff;
 }
 
@@ -340,7 +345,6 @@ footer.site-footer a {
 .tile p {
   margin: 0;
   font-size: 0.92rem;
-  opacity: 0.92;
   line-height: 1.4;
 }
 
@@ -351,7 +355,7 @@ footer.site-footer a {
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.28);   /* a darker pill under white words; a lighter one under dark words, below */
 }
 
 .tile-glow {
@@ -366,7 +370,12 @@ footer.site-footer a {
 .tile--match { background: linear-gradient(150deg, var(--sun-1), var(--sun-2)); color: var(--sun-ink); }
 .tile--memory { background: linear-gradient(150deg, var(--storm-1), var(--storm-2)); }
 .tile--test { background: linear-gradient(150deg, var(--fire-1), var(--fire-2)); }
-.tile--blitz { background: linear-gradient(150deg, var(--bolt-1), var(--bolt-2)); color: var(--bolt-ink); }
+.tile--blitz { background: linear-gradient(150deg, var(--bolt-1), var(--bolt-soft)); color: var(--bolt-ink); }
+
+.tile--match .tile-count,
+.tile--blitz .tile-count {
+  background: rgba(255, 255, 255, 0.62);
+}
 
 .tile--match .tile-icon,
 .tile--blitz .tile-icon {
@@ -508,7 +517,6 @@ footer.site-footer a {
 .flashcard-face .hint {
   margin-top: 10px;
   font-size: 0.8rem;
-  opacity: 0.85;
 }
 
 .flashcard-face .expansion {
@@ -547,6 +555,7 @@ footer.site-footer a {
 
 .match-item {
   background: var(--card-bg);
+  color: var(--ink);
   border: 2px solid transparent;
   border-radius: var(--radius-md);
   padding: 12px 14px;
@@ -571,14 +580,16 @@ footer.site-footer a {
 
 .match-item.correct {
   border-color: var(--good);
-  background: #dcfce7;
+  background: var(--ok-bg);
+  color: var(--ok-ink);
   cursor: default;
-  opacity: 0.75;
+  /* never dimmed to show it's finished: a matched pair still has to be readable */
 }
 
 .match-item.wrong {
   border-color: var(--bad);
-  background: #fee2e2;
+  background: var(--bad-bg);
+  color: var(--bad-ink);
   animation: shake 0.35s;
 }
 
@@ -819,8 +830,8 @@ footer.site-footer a {
   bottom: 22px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
-  background: var(--ink);
-  color: #fff;
+  background: var(--toast-bg);
+  color: var(--toast-ink);
   padding: 12px 20px;
   border-radius: 999px;
   font-weight: 700;
@@ -938,6 +949,8 @@ footer.site-footer a {
    on navy, and an answered one went the browser's disabled grey. Every option now takes the
    page's ink, and right and wrong have a pair of colours for each theme. */
 :root {
+  --toast-bg: #0b2338;   /* the toast inverted against the page in either theme: it was near-white ink on near-white in dark */
+  --toast-ink: #ffffff;
   --ok-bg: #dcfce7;
   --ok-ink: #05321a;
   --bad-bg: #fee2e2;
@@ -945,6 +958,8 @@ footer.site-footer a {
 }
 
 :root[data-theme="dark"] {
+  --toast-bg: #eaf5ff;
+  --toast-ink: #0b2338;
   --ok-bg: #0d2f1c;
   --ok-ink: #b6f3cf;
   --bad-bg: #3a1417;
@@ -953,6 +968,8 @@ footer.site-footer a {
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    --toast-bg: #eaf5ff;
+    --toast-ink: #0b2338;
     --ok-bg: #0d2f1c;
     --ok-ink: #b6f3cf;
     --bad-bg: #3a1417;
